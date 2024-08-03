@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .notification-button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .notification-button:hover {
+            background-color: #218838;
+        }
+
+        .notification {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffc107;
+            border-radius: 4px;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+    </style>
+    <script>
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000); // Show the notification for 3 seconds
+        }
+    </script>
+</head>
+<body>
+
+<button class="notification-button" onclick="showNotification()">Show Notification</button>
+<div id="notification" class="notification">This is a notification message!</div>
+
+</body>
+</html>
