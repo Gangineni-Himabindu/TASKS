@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .converter-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .converter {
+            margin-bottom: 20px;
+        }
+        .converter label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .converter input,
+        .converter select,
+        .converter button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .converter button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .converter button:hover {
+            opacity: 0.8;
+        }
+        .result {
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="converter-container">
+    <!-- Weight Converter -->
+    <div class="converter" id="weightConverter">
+        <h2>Weight Converter</h2>
+        <label for="weightValue">Value:</label>
+        <input type="number" id="weightValue" placeholder="Enter value" step="any">
+        
+        <label for="weightFrom">From:</label>
+        <select id="weightFrom">
+            <option value="kg">Kilograms</option>
+            <option value="g">Grams</option>
+            <option value="lb">Pounds</option>
+            <option value="oz">Ounces</option>
+        </select>
+        
+        <label for="weightTo">To:</label>
+        <select id="weightTo">
+            <option value="kg">Kilograms</option>
+            <option value="g">Grams</option>
+            <option value="lb">Pounds</option>
+            <option value="oz">Ounces</option>
+        </select>
+        
+        <button onclick="convertWeight()">Convert</button>
+        <div class="result" id="weightResult"></div>
+    </div>
+
+    <!-- Temperature Converter -->
+    <div class="converter" id="temperatureConverter">
+        <h2>Temperature Converter</h2>
+        <label for="tempValue">Value:</label>
+        <input type="number" id="tempValue" placeholder="Enter value" step="any">
+        
+        <label for="tempFrom">From:</label>
+        <select id="tempFrom">
+            <option value="C">Celsius</option>
+            <option value="F">Fahrenheit</option>
+            <option value="K">Kelvin</option>
+        </select>
+        
+        <label for="tempTo">To:</label>
+        <select id="tempTo">
+            <option value="C">Celsius</option>
+            <option value="F">Fahrenheit</option>
+            <option value="K">Kelvin</option>
+        </select>
+        
+        <button onclick="convertTemperature()">Convert</button>
+        <div class="result" id="tempResult"></div>
+    </div>
+
+    <!-- Length Converter -->
+    <div class="converter" id="lengthConverter">
+        <h2>Length Converter</h2>
+        <label for="lengthValue">Value:</label>
+        <input type="number" id="lengthValue" placeholder="Enter value" step="any">
+        
+        <label for="lengthFrom">From:</label>
+        <select id="lengthFrom">
+            <option value="m">Meters</option>
+            <option value="cm">Centimeters</option>
+            <option value="km">Kilometers</option>
+            <option value="mi">Miles</option>
+            <option value="ft">Feet</option>
+        </select>
+        
+        <label for="lengthTo">To:</label>
+        <select id="lengthTo">
+            <option value="m">Meters</option>
+            <option value="cm">Centimeters</option>
+            <option value="km">Kilometers</option>
+            <option value="mi">Miles</option>
+            <option value="ft">Feet</option>
+        </select>
+        
+        <button onclick="convertLength()">Convert</button>
+        <div class="result" id="lengthResult"></div>
+    </div>
+
+    <!-- Speed Converter -->
+    <div class="converter" id="speedConverter">
+        <h2>Speed Converter</h2>
+        <label for="speedValue">Value:</label>
+        <input type="number" id="speedValue" placeholder="Enter value" step="any">
+        
+        <label for="speedFrom">From:</label>
+        <select id="speedFrom">
+            <option value="kmh">Kilometers per Hour</option>
+            <option value="mph">Miles per Hour</option>
+            <option value="ms">Meters per Second</option>
+        </select>
+        
+        <label for="speedTo">To:</label>
+        <select id="speedTo">
+            <option value="kmh">Kilometers per Hour</option>
+            <option value="mph">Miles per Hour</option>
+            <option value="ms">Meters per Second</option>
+        </select>
+        
+        <button onclick="convertSpeed()">Convert</button>
+        <div class="result" id="speedResult"></div>
+    </div>
+</div>
+
+<script>
+    // Weight conversion rates
+    const weightConversions = {
+        kg: 1,
+        g: 1000,
+        lb: 2.20462,
+        oz: 35.274
+    };
+
+    function convertWeight() {
+        const value = parseFloat(document.getElementById('weightValue').value);
+        const fromUnit = document.getElementById('weightFrom').value;
+        const toUnit = document.getElementById('weightTo').value;
+        const resultElement = document.getElementById('weightResult');
+
+        if (isNaN(value)) {
+            resultElement.textContent = 'Please enter a valid number.';
+            return;
+        }
+
+        const inKg = value / weightConversions[fromUnit];
+        const result = inKg * weightConversions[toUnit];
+        resultElement.textContent = `${value} ${fromUnit} = ${result.toFixed(2)} ${toUnit}`;
+    }
+
+    // Temperature conversion formulas
+    function convertTemperature() {
+        const value = parseFloat(document.getElementById('tempValue').value);
+        const fromUnit = document.getElementById('tempFrom').value;
+        const toUnit = document.getElementById('tempTo').value;
+        const resultElement = document.getElementById('tempResult');
+
+        if (isNaN(value)) {
+            resultElement.textContent = 'Please enter a valid number.';
+            return;
+        }
+
+        let result;
+
+        // Convert to Celsius
+        if (fromUnit === 'F') {
+            value = (value - 32) * 5 / 9;
+        } else if (fromUnit === 'K') {
+            value = value - 273.15;
+        }
+
+        // Convert from Celsius
+        if (toUnit === 'F') {
+            result = value * 9 / 5 + 32;
+        } else if (toUnit === 'K') {
+            result = value + 273.15;
+        } else {
+            result = value;
+        }
+
+        resultElement.textContent = `${value} ${fromUnit} = ${result.toFixed(2)} ${toUnit}`;
+    }
+
+    // Length conversion rates
+    const lengthConversions = {
+        m: 1,
+        cm: 100,
+        km: 0.001,
+        mi: 0.000621371,
+        ft: 3.28084
+    };
+
+    function convertLength() {
+        const value = parseFloat(document.getElementById('lengthValue').value);
+        const fromUnit = document.getElementById('lengthFrom').value;
+        const toUnit = document.getElementById('lengthTo').value;
+        const resultElement = document.getElementById('lengthResult');
+
+        if (isNaN(value)) {
+            resultElement.textContent = 'Please enter a valid number.';
+            return;
+        }
+
+        const inM = value / lengthConversions[fromUnit];
+        const result = inM * lengthConversions[toUnit];
+        resultElement.textContent = `${value} ${fromUnit} = ${result.toFixed(2)} ${toUnit}`;
+    }
+
+    // Speed conversion rates
+    const speedConversions = {
+        kmh: 1,
+        mph: 0.621371,
+        ms: 3.6
+    };
+
+    function convertSpeed() {
+        const value = parseFloat(document.getElementById('speedValue').value);
+        const fromUnit = document.getElementById('speedFrom').value;
+        const toUnit = document.getElementById('speedTo').value;
+        const resultElement = document.getElementById('speedResult');
+
+        if (isNaN(value)) {
+            resultElement.textContent = 'Please enter a valid number.';
+            return;
+        }
+
+        const inKmh = value / speedConversions[fromUnit];
+        const result = inKmh * speedConversions[toUnit];
+        resultElement.textContent = `${value} ${fromUnit} = ${result.toFixed(2)} ${toUnit}`;
+    }
+</script>
+
+</body>
+</html>

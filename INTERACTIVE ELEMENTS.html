@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Elements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: auto;
+            padding: 10px 0;
+            list-style-type: none;
+        }
+        .timeline::after {
+            content: "";
+            position: absolute;
+            width: 6px;
+            background-color: #ddd;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-item {
+            padding: 10px 20px;
+            position: relative;
+            background-color: white;
+            border-radius: 6px;
+            width: 50%;
+            margin: 10px 0;
+        }
+        .timeline-item::after {
+            content: " ";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px;
+            border-color: transparent transparent white transparent;
+            top: 15px;
+            left: -10px;
+        }
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        .timeline-item:nth-child(even)::after {
+            left: auto;
+            right: -10px;
+            border-color: transparent transparent white transparent;
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        /* Scroll Indicator Styles */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .scroll-indicator:hover {
+            background-color: #45a049;
+        }
+
+        /* Progress Bar Styles */
+        .progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 25px;
+            width: 0;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Place the tooltip above the text */
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: relative;
+            display: inline-block;
+        }
+        .popup .popuptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Place the popup above the text */
+            left: 50%;
+            margin-left: -80px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .popup:hover .popuptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Modal Box</h2>
+        <p>This is a modal box example.</p>
+    </div>
+</div>
+
+<!-- Timeline -->
+<ul class="timeline">
+    <li class="timeline-item">
+        <h3>Event 1</h3>
+        <p>Description of event 1.</p>
+    </li>
+    <li class="timeline-item">
+        <h3>Event 2</h3>
+        <p>Description of event 2.</p>
+    </li>
+    <li class="timeline-item">
+        <h3>Event 3</h3>
+        <p>Description of event 3.</p>
+    </li>
+</ul>
+
+<!-- Scroll Indicator -->
+<div class="scroll-indicator" onclick="scrollToTop()">↑</div>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+    <div id="progressBar" class="progress-bar">0%</div>
+</div>
+
+<!-- Tooltip -->
+<div class="tooltip">Hover over me
+    <span class="tooltiptext">Tooltip text</span>
+</div>
+
+<!-- Popup -->
+<div class="popup" onclick="showPopup()">Click me
+    <span class="popuptext" id="popupText">Popup text</span>
+</div>
+
+<script>
+    // Modal functionality
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Scroll to top functionality
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Progress bar functionality
+    function updateProgressBar(percentage) {
+        var progressBar = document.getElementById("progressBar");
+        progressBar.style.width = percentage + '%';
+        progressBar.textContent = percentage + '%';
+    }
+    // Example usage: Update progress bar to 50%
+    updateProgressBar(50);
+
+    // Popup functionality
+    function showPopup() {
+        var popup = document.getElementById("popupText");
+        popup.style.visibility = popup.style.visibility === 'visible' ? 'hidden' : 'visible';
+        popup.style.opacity = popup.style.opacity === '1' ? '0' : '1';
+    }
+</script>
+
+</body>
+</html>

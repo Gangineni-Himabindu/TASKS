@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-container button:hover {
+            opacity: 0.8;
+        }
+        .message {
+            display: none;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #dff0d8;
+            border: 1px solid #d0e9c6;
+            color: #3c763d;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .error {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+    </style>
+    <script>
+        function handleCheckout(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const messageDiv = document.getElementById('message');
+            const formContainer = document.querySelector('.form-container');
+
+            messageDiv.classList.remove('error');
+            messageDiv.textContent = 'Checkout successfully. Your order has been placed!';
+            formContainer.style.display = 'none'; // Hide the form after successful checkout
+
+            messageDiv.style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Checkout Form</h2>
+    <form onsubmit="handleCheckout(event)">
+        <h3>Billing Address</h3>
+        <label for="fname"><b>Full Name</b></label>
+        <input type="text" placeholder="Enter Full Name" name="fname" required>
+
+        <label for="email"><b>Email</b></label>
+        <input type="email" placeholder="Enter Email" name="email" required>
+
+        <label for="adr"><b>Address</b></label>
+        <input type="text" placeholder="Enter Address" name="adr" required>
+
+        <label for="city"><b>City</b></label>
+        <input type="text" placeholder="Enter City" name="city" required>
+
+        <div class="row">
+            <div class="col-50">
+                <label for="state"><b>State</b></label>
+                <input type="text" placeholder="Enter State" name="state" required>
+            </div>
+            <div class="col-50">
+                <label for="zip"><b>Zip</b></label>
+                <input type="text" placeholder="Enter Zip" name="zip" required>
+            </div>
+        </div>
+
+        <h3>Payment</h3>
+        <label for="cname">Name on Card</label>
+        <input type="text" id="cname" name="cname" placeholder="John More Doe" required>
+        <label for="ccnum">Credit card number</label>
+        <input type="text" id="ccnum" name="ccnum" placeholder="1111-2222-3333-4444" required>
+        <label for="expmonth">Exp Month</label>
+        <input type="text" id="expmonth" name="expmonth" placeholder="September" required>
+        <div class="row">
+            <div class="col-50">
+                <label for="expyear">Exp Year</label>
+                <input type="text" id="expyear" name="expyear" placeholder="2024" required>
+            </div>
+            <div class="col-50">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="352" required>
+            </div>
+        </div>
+
+        <button type="submit">Continue to checkout</button>
+    </form>
+</div>
+<div id="message" class="message"></div>
+
+</body>
+</html>

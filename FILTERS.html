@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+        }
+        .filter-container label {
+            margin-right: 10px;
+        }
+        .filter-container select {
+            padding: 8px;
+            margin-right: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th.sortable:hover {
+            cursor: pointer;
+            background-color: #f1f1f1;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>List and Table Filters</h2>
+
+<div class="filter-container">
+    <label for="listFilter">Filter List:</label>
+    <input type="text" id="listFilter" placeholder="Type to filter list items...">
+</div>
+
+<ul id="filterableList">
+    <li>Apple</li>
+    <li>Banana</li>
+    <li>Cherry</li>
+    <li>Date</li>
+    <li>Elderberry</li>
+    <li>Fig</li>
+    <li>Grape</li>
+</ul>
+
+<div class="filter-container">
+    <label for="tableFilter">Filter Table:</label>
+    <input type="text" id="tableFilter" placeholder="Type to filter table rows...">
+</div>
+
+<table id="filterableTable">
+    <thead>
+        <tr>
+            <th class="sortable">Name</th>
+            <th class="sortable">Age</th>
+            <th class="sortable">Country</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John</td>
+            <td>25</td>
+            <td>USA</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>30</td>
+            <td>Canada</td>
+        </tr>
+        <tr>
+            <td>Liam</td>
+            <td>35</td>
+            <td>UK</td>
+        </tr>
+        <tr>
+            <td>Olivia</td>
+            <td>28</td>
+            <td>Australia</td>
+        </tr>
+        <tr>
+            <td>Noah</td>
+            <td>22</td>
+            <td>USA</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    // List filter functionality
+    document.getElementById('listFilter').addEventListener('keyup', function () {
+        const filter = this.value.toUpperCase();
+        const listItems = document.getElementById('filterableList').getElementsByTagName('li');
+        for (let i = 0; i < listItems.length; i++) {
+            const item = listItems[i];
+            if (item.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        }
+    });
+
+    // Table filter functionality
+    document.getElementById('tableFilter').addEventListener('keyup', function () {
+        const filter = this.value.toUpperCase();
+        const rows = document.getElementById('filterableTable').getElementsByTagName('tr');
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            let match = false;
+            const cells = row.getElementsByTagName('td');
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    match = true;
+                    break;
+                }
+            }
+            if (match) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+
+    // Sorting functionality
+    document.querySelectorAll('.sortable').forEach(function (header, index) {
+        header.addEventListener('click', function () {
+            const table = document.getElementById('filterableTable');
+            const rows = Array.from(table.getElementsByTagName('tr')).slice(1);
+            const isAsc = header.classList.contains('asc');
+            header.classList.toggle('asc', !isAsc);
+            header.classList.toggle('desc', isAsc);
+            
+            rows.sort(function (rowA, rowB) {
+                const cellA = rowA.getElementsByTagName('td')[index].innerHTML;
+                const cellB = rowB.getElementsByTagName('td')[index].innerHTML;
+                if (cellA < cellB) return isAsc ? -1 : 1;
+                if (cellA > cellB) return isAsc ? 1 : -1;
+                return 0;
+            });
+            rows.forEach(function (row) {
+                table.getElementsByTagName('tbody')[0].appendChild(row);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

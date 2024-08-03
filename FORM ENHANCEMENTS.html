@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-container button:hover {
+            opacity: 0.8;
+        }
+        .custom-checkbox, .custom-radio, .custom-toggle {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        .custom-checkbox input, .custom-radio input, .custom-toggle input {
+            display: none;
+        }
+        .custom-checkbox label, .custom-radio label, .custom-toggle label {
+            position: relative;
+            cursor: pointer;
+            padding-left: 30px;
+        }
+        .custom-checkbox label:before, .custom-radio label:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 4px;
+        }
+        .custom-checkbox input:checked + label:before {
+            background: #4CAF50;
+            content: '✓';
+            color: white;
+            text-align: center;
+            line-height: 20px;
+        }
+        .custom-radio label:before {
+            border-radius: 50%;
+        }
+        .custom-radio input:checked + label:before {
+            background: #4CAF50;
+            content: '';
+        }
+        .custom-radio input:checked + label:after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+        .custom-toggle label:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 20px;
+            border: 1px solid #ccc;
+            background: #ccc;
+            border-radius: 20px;
+        }
+        .custom-toggle label:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .custom-toggle input:checked + label:before {
+            background: #4CAF50;
+        }
+        .custom-toggle input:checked + label:after {
+            left: 20px;
+            border-color: #4CAF50;
+        }
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .autocomplete-items div:hover {
+            background-color: #e9e9e9;
+        }
+        .autocomplete-active {
+            background-color: #4CAF50 !important;
+            color: #fff;
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function validateForm(event) {
+            const form = document.getElementById('enhancedForm');
+            const checkbox = document.getElementById('checkbox1');
+            const radio1 = document.getElementById('radio1');
+            const radio2 = document.getElementById('radio2');
+            const toggle = document.getElementById('toggle1');
+            let errorMessage = '';
+
+            if (!checkbox.checked) {
+                errorMessage += 'Checkbox must be checked.\n';
+            }
+            if (!radio1.checked && !radio2.checked) {
+                errorMessage += 'One radio option must be selected.\n';
+            }
+            if (!toggle.checked) {
+                errorMessage += 'Toggle switch must be on.\n';
+            }
+
+            if (!form.checkValidity() || errorMessage) {
+                event.preventDefault();
+                alert('Please fill in all required fields correctly.\n' + errorMessage);
+            } else {
+                alert('Form submitted successfully!');
+            }
+        }
+
+        function autocompleteSuggestions(input, suggestions) {
+            let currentFocus;
+            input.addEventListener("input", function(e) {
+                let list, item, i, val = this.value;
+                closeAllLists();
+                if (!val) return false;
+                currentFocus = -1;
+                list = document.createElement("DIV");
+                list.setAttribute("id", this.id + "autocomplete-list");
+                list.setAttribute("class", "autocomplete-items");
+                this.parentNode.appendChild(list);
+                for (i = 0; i < suggestions.length; i++) {
+                    if (suggestions[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+                        item = document.createElement("DIV");
+                        item.innerHTML = "<strong>" + suggestions[i].substr(0, val.length) + "</strong>";
+                        item.innerHTML += suggestions[i].substr(val.length);
+                        item.innerHTML += "<input type='hidden' value='" + suggestions[i] + "'>";
+                        item.addEventListener("click", function(e) {
+                            input.value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        list.appendChild(item);
+                    }
+                }
+            });
+
+            input.addEventListener("keydown", function(e) {
+                let x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode === 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode === 38) { //up
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode === 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+
+            function removeActive(x) {
+                for (let i = 0; i < x.length; i++) {
+                    x[i].classList.remove("autocomplete-active");
+                }
+            }
+
+            function closeAllLists(elmnt) {
+                const items = document.getElementsByClassName("autocomplete-items");
+                for (let i = 0; i < items.length; i++) {
+                    if (elmnt !== items[i] && elmnt !== input) {
+                        items[i].parentNode.removeChild(items[i]);
+                    }
+                }
+            }
+
+            document.addEventListener("click", function(e) {
+                closeAllLists(e.target);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const countryInput = document.getElementById('country');
+            const countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antarctica", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan"];
+            autocompleteSuggestions(countryInput, countries);
+        });
+    </script>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Enhanced Form</h2>
+    <form id="enhancedForm" onsubmit="validateForm(event)">
+        <label for="fname"><b>Full Name</b></label>
+        <input type="text" placeholder="Enter Full Name" name="fname" required>
+
+        <label for="email"><b>Email</b></label>
+        <input type="email" placeholder="Enter Email" name="email" required>
+
+        <label for="country"><b>Country</b></label>
+        <input type="text" id="country" placeholder="Start typing a country" name="country" required>
+
+        <div class="custom-checkbox">
+            <input type="checkbox" id="checkbox1" name="checkbox1">
+            <label for="checkbox1">Custom Checkbox</label>
+        </div>
+
+        <div class="custom-radio">
+            <input type="radio" id="radio1" name="radio" value="option1" required>
+            <label for="radio1">Custom Radio 1</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" id="radio2" name="radio" value="option2" required>
+            <label for="radio2">Custom Radio 2</label>
+        </div>
+
+        <div class="custom-toggle">
+            <input type="checkbox" id="toggle1" name="toggle1">
+            <label for="toggle1">Custom Toggle</label>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div id="message" class="message"></div>
+
+</body>
+</html>

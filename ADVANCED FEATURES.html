@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            position: relative;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="file"],
+        .form-container .animated-search {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-container button:hover {
+            opacity: 0.8;
+        }
+        .form-container .step {
+            display: none;
+        }
+        .form-container .step.active {
+            display: block;
+        }
+        .animated-search {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .animated-search input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 12px;
+        }
+        .animated-search button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 12px;
+        }
+        .form-container .message {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        let currentStep = 0;
+
+        function showStep(step) {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((el, index) => {
+                el.classList.toggle('active', index === step);
+            });
+        }
+
+        function nextStep() {
+            const steps = document.querySelectorAll('.step');
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function validateForm(event) {
+            const form = document.getElementById('advancedForm');
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                alert('Please fill in all required fields.');
+            } else {
+                event.preventDefault();
+                document.getElementById('advancedForm').style.display = 'none';
+                document.getElementById('message').innerText = 'Submitted Successfully!';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            showStep(currentStep);
+        });
+    </script>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Multi-Step Form with Advanced Features</h2>
+    <form id="advancedForm" onsubmit="validateForm(event)">
+        <div class="step active">
+            <label for="fname"><b>Full Name</b></label>
+            <input type="text" placeholder="Enter Full Name" name="fname" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Enter Email" name="email" required>
+
+            <button type="button" onclick="nextStep()">Next</button>
+        </div>
+        <div class="step">
+            <label for="country"><b>Country</b></label>
+            <input type="text" id="country" placeholder="Start typing a country" name="country" required>
+
+            <label for="search"><b>Search</b></label>
+            <div class="animated-search">
+                <input type="text" id="search" placeholder="Search...">
+                <button type="button" onclick="alert('Searching...')">🔍</button>
+            </div>
+
+            <button type="button" onclick="prevStep()">Previous</button>
+            <button type="button" onclick="nextStep()">Next</button>
+        </div>
+        <div class="step">
+            <label for="file"><b>Upload File</b></label>
+            <input type="file" id="file" name="file" required>
+
+            <button type="button" onclick="prevStep()">Previous</button>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+<div id="message" class="message"></div>
+
+</body>
+</html>

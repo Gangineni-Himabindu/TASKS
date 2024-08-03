@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .form-container {
+            max-width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-container button:hover {
+            opacity: 0.8;
+        }
+        .message {
+            display: none;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #dff0d8;
+            border: 1px solid #d0e9c6;
+            color: #3c763d;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .error {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+    </style>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const username = document.querySelector('input[name="uname"]').value;
+            const password = document.querySelector('input[name="psw"]').value;
+            const messageDiv = document.getElementById('message');
+            const formContainer = document.querySelector('.form-container');
+
+            if (username === "" || password === "") {
+                messageDiv.classList.add('error');
+                messageDiv.textContent = 'Details are not filled';
+            } else {
+                messageDiv.classList.remove('error');
+                messageDiv.textContent = 'Login successfully';
+                formContainer.style.display = 'none';
+            }
+
+            messageDiv.style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Login Form</h2>
+    <form onsubmit="handleSubmit(event)">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+<div id="message" class="message"></div>
+
+</body>
+</html>

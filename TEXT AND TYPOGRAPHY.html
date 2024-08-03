@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .text-effects {
+            margin: 20px;
+        }
+
+        .text-effects h2 {
+            margin-bottom: 20px;
+        }
+
+        .shadow-text {
+            font-size: 2em;
+            color: #333;
+            text-shadow: 2px 2px 4px #999;
+        }
+
+        .glitch {
+            font-size: 2em;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #0ff;
+            background: #000;
+            clip: rect(0, 0, 0, 0);
+            animation: glitch 1s infinite;
+        }
+
+        .glitch::before {
+            animation-delay: -0.5s;
+            clip: rect(0, 0, 0, 0);
+            color: #f0f;
+        }
+
+        .glitch::after {
+            animation-delay: 0.5s;
+            clip: rect(0, 0, 0, 0);
+            color: #ff0;
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+                clip: rect(0, 0, 0, 0);
+            }
+            25% {
+                transform: translate(-5px, -5px);
+                clip: rect(0, 0, 0, 0);
+            }
+            50% {
+                transform: translate(5px, 5px);
+                clip: rect(0, 0, 0, 0);
+            }
+            75% {
+                transform: translate(-5px, 5px);
+                clip: rect(0, 0, 0, 0);
+            }
+            100% {
+                transform: translate(0);
+                clip: rect(0, 0, 0, 0);
+            }
+        }
+
+        .typewriter {
+            font-size: 2em;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 4px solid #333;
+            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #333; }
+        }
+
+        .countdown-timer {
+            font-size: 2em;
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+    </style>
+    <title>Text and Typography Effects</title>
+</head>
+<body>
+
+<div class="text-effects">
+    <h2>Text Effects</h2>
+    <div class="shadow-text">Text with Shadow Effect</div>
+    <div class="glitch" data-text="Glitch Effect">Glitch Effect</div>
+    <div class="typewriter">Typewriter Effect</div>
+</div>
+
+<div class="countdown-timer" id="timer">
+    Time Left: <span id="countdown"></span>
+</div>
+
+<script>
+    // Countdown Timer
+    function startCountdown(duration, display) {
+        let timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            display.textContent = minutes + ":" + seconds;
+            if (--timer < 0) timer = duration;
+        }, 1000);
+    }
+
+    window.onload = function () {
+        let fiveMinutes = 60 * 5,
+            display = document.querySelector('#countdown');
+        startCountdown(fiveMinutes, display);
+    };
+</script>
+
+</body>
+</html>

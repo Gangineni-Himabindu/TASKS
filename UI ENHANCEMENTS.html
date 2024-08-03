@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Enhancements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            border-radius: 12px;
+            background-color: #007bff;
+        }
+        .badge-danger {
+            background-color: #dc3545;
+        }
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        /* Cards */
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin: 20px;
+            max-width: 300px;
+            background-color: white;
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+        .card-body {
+            padding: 15px;
+        }
+        .card-title {
+            font-size: 18px;
+            margin: 0;
+        }
+        .card-text {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 15px;
+            margin: 20px;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            display: none;
+        }
+        .alert-success {
+            background-color: #28a745;
+        }
+        .alert-danger {
+            background-color: #dc3545;
+        }
+
+        /* Collapsible Sections */
+        .collapsible {
+            background-color: #f1f1f1;
+            color: #444;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            border-radius: 4px;
+        }
+        .active, .collapsible:hover {
+            background-color: #ddd;
+        }
+        .collapsible-content {
+            display: none;
+            padding: 15px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+
+        /* Loaders */
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Badges -->
+    <div>
+        <span class="badge">New</span>
+        <span class="badge badge-success">Success</span>
+        <span class="badge badge-danger">Error</span>
+    </div>
+
+    <!-- Cards -->
+    <div class="card">
+        <img src="https://via.placeholder.com/300x200" alt="Card image">
+        <div class="card-body">
+            <h3 class="card-title">Card Title</h3>
+            <p class="card-text">Some example text. Some example text. Some example text.</p>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    <div id="success-alert" class="alert alert-success">
+        Success! Your action was successful.
+    </div>
+    <div id="error-alert" class="alert alert-danger">
+        Error! Something went wrong.
+    </div>
+
+    <!-- Collapsible Sections -->
+    <button class="collapsible">Open Collapsible Section</button>
+    <div class="collapsible-content">
+        <p>This is the content of the collapsible section.</p>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader"></div>
+
+    <script>
+        // Collapsible Section Script
+        const collapsibles = document.querySelectorAll('.collapsible');
+        collapsibles.forEach(collapsible => {
+            collapsible.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+        });
+
+        // Example of showing alerts
+        function showAlert(type, message) {
+            const alert = document.getElementById(`${type}-alert`);
+            if (alert) {
+                alert.textContent = message;
+                alert.style.display = 'block';
+                setTimeout(() => alert.style.display = 'none', 3000); // Hide after 3 seconds
+            }
+        }
+
+        // Example: Show success alert
+        showAlert('success', 'Your changes have been saved successfully.');
+    </script>
+
+</body>
+</html>

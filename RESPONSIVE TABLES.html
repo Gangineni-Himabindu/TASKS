@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .zebra-striped tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .centered {
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+        }
+        .full-width {
+            width: 100%;
+        }
+        .comparison-table th, .comparison-table td {
+            text-align: center;
+        }
+        .comparison-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        @media screen and (max-width: 600px) {
+            .responsive-table thead {
+                display: none;
+            }
+            .responsive-table tr {
+                margin-bottom: 10px;
+                display: block;
+                border: 1px solid #ccc;
+            }
+            .responsive-table td {
+                display: block;
+                text-align: right;
+                border: none;
+                position: relative;
+                padding-left: 50%;
+            }
+            .responsive-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Zebra-striped Table</h2>
+<div class="table-container">
+    <table class="zebra-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John</td>
+                <td>25</td>
+                <td>USA</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>30</td>
+                <td>Canada</td>
+            </tr>
+            <tr>
+                <td>Liam</td>
+                <td>35</td>
+                <td>UK</td>
+            </tr>
+            <tr>
+                <td>Olivia</td>
+                <td>28</td>
+                <td>Australia</td>
+            </tr>
+            <tr>
+                <td>Noah</td>
+                <td>22</td>
+                <td>USA</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Centered Table</h2>
+<div class="table-container">
+    <table class="centered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John</td>
+                <td>25</td>
+                <td>USA</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>30</td>
+                <td>Canada</td>
+            </tr>
+            <tr>
+                <td>Liam</td>
+                <td>35</td>
+                <td>UK</td>
+            </tr>
+            <tr>
+                <td>Olivia</td>
+                <td>28</td>
+                <td>Australia</td>
+            </tr>
+            <tr>
+                <td>Noah</td>
+                <td>22</td>
+                <td>USA</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Full-width Table</h2>
+<div class="table-container">
+    <table class="full-width">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John</td>
+                <td>25</td>
+                <td>USA</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>30</td>
+                <td>Canada</td>
+            </tr>
+            <tr>
+                <td>Liam</td>
+                <td>35</td>
+                <td>UK</td>
+            </tr>
+            <tr>
+                <td>Olivia</td>
+                <td>28</td>
+                <td>Australia</td>
+            </tr>
+            <tr>
+                <td>Noah</td>
+                <td>22</td>
+                <td>USA</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Responsive Table</h2>
+<div class="table-container">
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="Name">John</td>
+                <td data-label="Age">25</td>
+                <td data-label="Country">USA</td>
+            </tr>
+            <tr>
+                <td data-label="Name">Mary</td>
+                <td data-label="Age">30</td>
+                <td data-label="Country">Canada</td>
+            </tr>
+            <tr>
+                <td data-label="Name">Liam</td>
+                <td data-label="Age">35</td>
+                <td data-label="Country">UK</td>
+            </tr>
+            <tr>
+                <td data-label="Name">Olivia</td>
+                <td data-label="Age">28</td>
+                <td data-label="Country">Australia</td>
+            </tr>
+            <tr>
+                <td data-label="Name">Noah</td>
+                <td data-label="Age">22</td>
+                <td data-label="Country">USA</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Comparison Table</h2>
+<div class="table-container">
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Product A</th>
+                <th>Product B</th>
+                <th>Product C</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Price</td>
+                <td>$100</td>
+                <td>$150</td>
+                <td>$200</td>
+            </tr>
+            <tr>
+                <td>Warranty</td>
+                <td>1 year</td>
+                <td>2 years</td>
+                <td>3 years</td>
+            </tr>
+            <tr>
+                <td>Support</td>
+                <td>Email</td>
+                <td>Email & Phone</td>
+                <td>24/7 Support</td>
+            </tr>
+            <tr>
+                <td>Shipping</td>
+                <td>Free</td>
+                <td>$10</td>
+                <td>Free</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
